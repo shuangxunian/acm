@@ -4,15 +4,17 @@ typedef long long ll;
 #define mod 10007
 int main()
 {
-	ll p,q,n,t;
+	int t;
+	int n,a;
 	ll ans;
-	while(~scanf("%lld",&t)){
+	while(~scanf("%d",&t)){
 		while(t--){
-			scanf("%lld%lld%lld",&n,&p,&q);
-			ans=1;
-			for(int i=2;i<=n;i++){
-				ans=(p*ans%mod+q)%mod;
-			} 
+			ans=0;
+			scanf("%d",&n);
+			while(n--){
+				scanf("%d",&a);
+				ans+=a;
+			}
 			printf("%lld\n",ans);
 		}
 	}
