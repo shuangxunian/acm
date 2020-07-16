@@ -194,3 +194,28 @@ int main(){
 }
 
 //快速排序
+void sortwyl(int t[],int l,int r)
+{
+    if(l<r){
+        inr i=l,j=r,x=t[l];
+        while (i<j)
+        {
+            while(i<j&&t[j]>=x) j--;
+            if(i<j) t[i++]=t[j];
+            while(i<j&&t[i]<x) i++;
+            if(i<j) t[j--]=t[i];
+        }
+        t[i]=x;
+        sortwyl(t,l,i-1);
+        sortwyl(t,i+1,j);
+    }
+}
+int main()
+{
+    int arr[105];
+    int len=sizeof(arr)/sizeof(int);
+    sortwyl(arr,0,len-1);
+    for(int i=0;i<len;i++){
+        cout<<arr[i]<<endl;
+    }
+}
