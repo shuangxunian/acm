@@ -219,3 +219,48 @@ int main()
         cout<<arr[i]<<endl;
     }
 }
+
+//0167有序两数之和
+//有序直接二分搜索
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        for(int i=0;i<numbers.size();i++){
+            int out2=target-numbers[i];
+            int low = i+1;
+            int high= numbers.size()-1;
+            while(low<=high){
+                int mid=(low+high)/2;
+                if(numbers[mid]==out2){
+                    return {i+1;mid+1};
+                }
+                else if(numbers[mid]<out2){
+                    low=mid+1;
+                }
+                else if(numbers[mid]>out2){
+                    high=mid-1;
+                }
+            }
+        }
+        return {-1,-1};
+    }
+};
+
+//1512
+//一个暴力，一个哈希；这里用哈希
+class Solution {
+public:
+    int numIdenticalPairs(vector<int>& nums) {
+        unordered_map <int, int> m;
+        for (int num: nums) {
+            ++m[num];
+        }
+
+        int ans = 0;
+        for (const auto &[k, v]: m) {
+            ans += v * (v - 1) / 2;
+        }
+
+        return ans;
+    }
+};
