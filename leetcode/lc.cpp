@@ -197,7 +197,7 @@ int main(){
 void sortwyl(int t[],int l,int r)
 {
     if(l<r){
-        inr i=l,j=r,x=t[l];
+        int i=l,j=r,x=t[l];
         while (i<j)
         {
             while(i<j&&t[j]>=x) j--;
@@ -262,5 +262,20 @@ public:
         }
 
         return ans;
+    }
+};
+
+//剑指 Offer 14- I. 剪绳子
+//直接看题解吧这道题，题解写的真的好
+//https://leetcode-cn.com/problems/jian-sheng-zi-lcof/solution/mian-shi-ti-14-i-jian-sheng-zi-tan-xin-si-xiang-by/
+class Solution {
+public:
+    int cuttingRope(int n) {
+        if(n<4)
+            return n-1;
+        int a=n/3,b=n%3;
+        if(b==0) return pow(3,a);
+        if(b==1) return pow(3,a-1)*4;
+        return pow(3,a)*2;
     }
 };
