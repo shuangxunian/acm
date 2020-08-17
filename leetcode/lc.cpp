@@ -279,3 +279,36 @@ public:
         return pow(3,a)*2;
     }
 };
+
+//lc 110
+//求树高，判断差值
+//https://leetcode-cn.com/problems/balanced-binary-tree
+class Solution {
+public:
+    int height(TreeNode* root){
+        if(root==NULL) return 0;
+        else return max(height(root->left),height(root->right))+1;
+    }
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL) return true;
+        else return abs(height(root->left)-height(root->right))<=1&&isBalanced(root->left)&&isBalanced(root->right);
+    }
+};
+
+//lc 007
+//直接翻转，判断一下溢出就好
+//https://leetcode-cn.com/problems/reverse-integer/
+class Solution {
+public:
+    int reverse(int x) {
+        int rev = 0;
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+            if (rev > INT_MAX/10 || (rev == INT_MAX / 10 && pop > 7)) return 0;
+            if (rev < INT_MIN/10 || (rev == INT_MIN / 10 && pop < -8)) return 0;
+            rev = rev * 10 + pop;
+        }
+        return rev;
+    }
+};
