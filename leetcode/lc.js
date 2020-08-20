@@ -333,3 +333,132 @@ var romanToInt = function(s) {
     }
     return ans;
 };
+
+//手写new
+function _new(fn, ...arg) {
+    const obj = Object.create(fn.prototype);
+    const ret = fn.apply(obj, arg);
+    return ret instanceof Object ? ret : boj;
+}
+
+//数组扁平化
+//已知如下数组：
+//var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+//编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+function f(arr) {
+    return Array.from(new Set(arr.flat(Infinity))).sort((a, b) => { return a - b });
+}
+
+
+//lc 100
+//https://leetcode-cn.com/problems/same-tree/submissions/
+//深搜判断每一个节点是不是相等
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {boolean}
+ */
+var isSameTree = function(p, q) {
+    if (p == null && q == null) {
+        return true;
+    } else if (p == null || q == null) {
+        return false;
+    } else if (p.val != q.val) {
+        return false;
+    } else {
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+};
+
+
+//lc 026
+//https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/
+/**
+ * @param {TreeNode} A
+ * @param {TreeNode} B
+ * @return {boolean}
+ */
+var isSubStructure = function(A, B) {
+    // 约定空树不是任意一个树的子结构
+    if (!A || !B) {
+        return false;
+    }
+    return isSameTree(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B)
+};
+
+/**
+ * @param {TreeNode} A
+ * @param {TreeNode} B
+ * @return {boolean}
+ */
+var isSameTree = function(A, B) {
+    // B子树是空子树 ok
+    if (!B) {
+        return true;
+    }
+    // A子树是空子树 且 B 非空，不 ok
+    if (!A) {
+        return false;
+    }
+    // 当前节点的值不相等，不 ok
+    if (A.val !== B.val) {
+        return false;
+    }
+    // 递归考察左子树、右子树
+    return isSameTree(A.left, B.left) && isSameTree(A.right, B.right);
+};
+
+//lc 053
+//https://leetcode-cn.com/problems/maximum-subarray/
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function(nums) {
+    let ans = 0,
+        maxa = nums[0];
+    nums.forEach((x) => {
+        ans = Math.max(x, ans + x);
+        maxa = Math.max(ans, maxa);
+    });
+    return maxa;
+};
+
+
+//lc 111
+//https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function(root) {
+    if (root == null) {
+        return 0;
+    }
+    if (root.left == null && root.right == null) {
+        return 1;
+    }
+    let ans = Infinity;
+    if (root.left != null) {
+        ans = Math.min(ans, minDepth(root.left));
+    }
+    if (root.right != null) {
+        ans = Math.min(ans, minDepth(root.right));
+    }
+    return ans + 1;
+};

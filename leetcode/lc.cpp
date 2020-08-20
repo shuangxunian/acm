@@ -331,3 +331,93 @@ public:
         return x == revertedNumber || x == revertedNumber / 10;
     }
 };
+
+//lc 112
+//https://leetcode-cn.com/problems/path-sum/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        if(root==NULL){
+            return false;
+        }
+        if(root->left==NULL&&root->right==NULL){
+            return sum==root->val;
+        }
+        return hasPathSum(root->left,sum-root->val)||hasPathSum(root->right,sum-root->val);
+    }
+};
+
+
+//lc 100
+//https://leetcode-cn.com/problems/same-tree/submissions/
+//深搜判断每一个节点是不是相等
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if (p == nullptr && q == nullptr) {
+            return true;
+        } else if (p == nullptr || q == nullptr) {
+            return false;
+        } else if (p->val != q->val) {
+            return false;
+        } else {
+            return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+        }
+    }
+};
+
+
+//lc 053
+//https://leetcode-cn.com/problems/maximum-subarray/
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int x=0,ans=nums[0];
+        for(int i=0;i<nums.size();i++){
+            x=max(x+nums[i],nums[i]);
+            ans=max(x,ans);
+        }
+        return ans;
+    }
+};
+
+
+//lc 111
+//https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if(root==NULL){
+            return 0;
+        }
+        if(root->left==NULL&&root->right==NULL){
+            return 1;
+        }
+        int ans=1e9;
+        if(root->left!=NULL){
+            ans=min(ans,minDepth(root->left));
+        }
+        if(root->right!=NULL){
+            ans=min(ans,minDepth(root->right));
+        }
+        return ans+1;
+    }
+};
