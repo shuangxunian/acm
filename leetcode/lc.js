@@ -462,3 +462,161 @@ var minDepth = function(root) {
     }
     return ans + 1;
 };
+
+//lc 557
+//https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
+//直接暴力翻转
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function(s) {
+    const len = s.length;
+    const ret = [];
+    let i = 0;
+    while (i < len) {
+        let start = i;
+        while (i < len && s.charAt(i) != ' ') {
+            i++;
+        }
+        for (let p = start; p < i; p++) {
+            ret.push(s.charAt(start + i - 1 - p));
+        }
+        while (i < len && s.charAt(i) == ' ') {
+            i++;
+            ret.push(' ');
+        }
+    }
+    return ret.join('');
+};
+
+//lc 14
+//https://leetcode-cn.com/problems/longest-common-prefix/
+//暴力遍历
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs) {
+    if (strs.length == 0)
+        return "";
+    let ans = strs[0];
+    for (let i = 1; i < strs.length; i++) {
+        let j = 0;
+        for (; j < ans.length && j < strs[i].length; j++) {
+            if (ans[j] != strs[i][j])
+                break;
+        }
+        ans = ans.substr(0, j);
+        if (ans === "")
+            return ans;
+    }
+    return ans;
+};
+
+//lc 20
+//https://leetcode-cn.com/problems/valid-parentheses/
+///基础栈思想
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function(s) {
+    const stack = [];
+    const mapper = {
+        "{": "}",
+        "[": "]",
+        "(": ")",
+    };
+
+    for (let i in s) {
+        const v = s[i];
+        if (["(", "[", "{"].indexOf(v) > -1) {
+            stack.push(v);
+        } else {
+            const peak = stack.pop();
+            if (v !== mapper[peak]) {
+                return false;
+            }
+        }
+    }
+
+    if (stack.length > 0) return false;
+
+    return true;
+};
+
+//lc 21
+//https://leetcode-cn.com/problems/merge-two-sorted-lists/
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function(l1, l2) {
+    if (l1 === null) {
+        return l2;
+    } else if (l2 === null) {
+        return l1;
+    } else if (l1.val < l2.val) {
+        l1.next = mergeTwoLists(l1.next, l2);
+        return l1;
+    } else {
+        l2.next = mergeTwoLists(l1, l2.next);
+        return l2;
+    }
+};
+
+//lc 841
+//https://leetcode-cn.com/problems/keys-and-rooms/submissions/
+/**
+ * @param {number[][]} rooms
+ * @return {boolean}
+ */
+const canVisitAllRooms = (rooms) => {
+    const visited = new Set();
+
+    const dfs = (curRoom) => {
+        visited.add(curRoom);
+        const nextRooms = rooms[curRoom];
+        for (let i = 0; i < nextRooms.length; i++) {
+            const next = nextRooms[i];
+            if (!visited.has(next)) {
+                dfs(next);
+            }
+        }
+    };
+
+    dfs(0);
+
+    if (visited.size == rooms.length) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+//lc 26
+//https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    if (nums.length == 0) return 0;
+    let i = 0;
+    for (let j = 1; j < nums.length; j++) {
+        if (nums[j] != nums[i]) {
+            i++;
+            nums[i] = nums[j];
+        }
+    }
+    return i + 1;
+};
