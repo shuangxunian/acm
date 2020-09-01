@@ -620,3 +620,126 @@ var removeDuplicates = function(nums) {
     }
     return i + 1;
 };
+
+//lc 486
+//https://leetcode-cn.com/problems/predict-the-winner/
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+//dfs
+const PredictTheWinner = (nums) => {
+    const helper = (i, j) => { // i，j是两端的索引
+        if (i == j) { // 递归的出口，此时只有一个选择，并且没有剩余的可选
+            return nums[i];
+        }
+        const pickI = nums[i] - helper(i + 1, j); // 选择左端
+        const pickJ = nums[j] - helper(i, j - 1); // 选择右端
+        return Math.max(pickI, pickJ); // 取较大者
+    };
+    return helper(0, nums.length - 1) >= 0;
+};
+//dp
+const PredictTheWinner = (nums) => {
+    const len = nums.length;
+
+    const dp = new Array(len);
+    for (let i = 0; i < len; i++) {
+        dp[i] = new Array(len);
+    }
+    // base case
+    for (let i = 0; i < len; i++) {
+        dp[i][i] = nums[i];
+    }
+    // iteration
+    for (let i = len - 2; i >= 0; i--) {
+        for (let j = i + 1; j < len; j++) {
+            const pickI = nums[i] - dp[i + 1][j];
+            const pickJ = nums[j] - dp[i][j - 1];
+            dp[i][j] = Math.max(pickI, pickJ);
+        }
+    }
+
+    return dp[0][len - 1] >= 0;
+};
+
+//lc 27
+//https://leetcode-cn.com/problems/remove-element/
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function(nums, val) {
+    let i = 0;
+    for (let k = 0; k < nums.length; k++) {
+        if (nums[k] != val) {
+            nums[i] = nums[k];
+            i++;
+        }
+    }
+    return i;
+};
+
+//lc 28
+//https://leetcode-cn.com/problems/implement-strstr/
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
+var strStr = function(haystack, needle) {
+    if (needle == "") return 0;
+    for (let i = 0; i <= haystack.length - needle.length; i++) {
+        if (haystack[i] == needle[0]) {
+            for (let j = 0; j < needle.length; j++) {
+                if (haystack[i + j] != needle[j]) break;
+                if (j == needle.length - 1) return i;
+            }
+        }
+    }
+    return -1;
+};
+//内置函数
+var strStr = function(haystack, needle) {
+    return haystack.indexOf(needle)
+};
+
+//lc 35
+//https://leetcode-cn.com/problems/search-insert-position/
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var searchInsert = function(nums, target) {
+    const n = nums.length;
+    let left = 0,
+        right = n - 1,
+        ans = n;
+    while (left <= right) {
+        let mid = ((right - left) >> 1) + left;
+        if (target <= nums[mid]) {
+            ans = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return ans;
+};
+
+//lc 38
+//https://leetcode-cn.com/problems/count-and-say/
+//正则，不会，抄的
+/**
+ * @param {number} n
+ * @return {string}
+ */
+var countAndSay = function(n) {
+    let prev = '1'
+    for (let i = 1; i < n; i++) {
+        prev = prev.replace(/(\d)\1*/g, item => `${item.length}${item[0]}`)
+    }
+    return prev
+};
