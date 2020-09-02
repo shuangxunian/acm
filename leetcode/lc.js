@@ -800,3 +800,27 @@ var addBinary = function(a, b) {
     ans += ca == 1 ? ca : "";
     return ans.split('').reverse().join('');
 };
+
+//lc 69
+//https://leetcode-cn.com/problems/sqrtx/
+//只能2分，暴力T
+/**
+ * @param {number} x
+ * @return {number}
+ */
+const mySqrt = (x) => {
+    if (x < 2) return x;
+    let left = 1;
+    let right = x >>> 1; // 除以2并取整，缩小一下遍历的范围
+    while (left + 1 < right) { // 退出循环时，它们相邻
+        let mid = (left + right) >>> 1;
+        if (mid == x / mid) {
+            return mid;
+        } else if (mid < x / mid) {
+            left = mid;
+        } else {
+            right = mid;
+        }
+    }
+    return right > x / right ? left : right;
+};
