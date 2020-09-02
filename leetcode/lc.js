@@ -758,3 +758,45 @@ var lengthOfLastWord = function(s) {
     while (start >= 0 && s[start] != ' ') start--;
     return end - start;
 };
+
+//lc 66
+//https://leetcode-cn.com/problems/plus-one/
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+var plusOne = function(digits) {
+    let i = digits.length - 1;
+    digits[i]++;
+    while (i > 0 && digits[i] == 10) {
+        digits[i - 1]++;
+        digits[i] = 0;
+        i--;
+    }
+    if (digits[0] == 10) {
+        digits[0] = 0;
+        digits.splice(0, 0, 1);
+    }
+    return digits;
+};
+
+//lc 67
+//https://leetcode-cn.com/problems/add-binary/
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
+var addBinary = function(a, b) {
+    let ans = "";
+    let ca = 0;
+    for (let i = a.length - 1, j = b.length - 1; i >= 0 || j >= 0; i--, j--) {
+        let sum = ca;
+        sum += i >= 0 ? parseInt(a[i]) : 0;
+        sum += j >= 0 ? parseInt(b[j]) : 0;
+        ans += sum % 2;
+        ca = Math.floor(sum / 2);
+    }
+    ans += ca == 1 ? ca : "";
+    return ans.split('').reverse().join('');
+};
