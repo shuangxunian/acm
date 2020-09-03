@@ -824,3 +824,44 @@ const mySqrt = (x) => {
     }
     return right > x / right ? left : right;
 };
+
+//lc 51
+//https://leetcode-cn.com/problems/n-queens/
+//N皇后标准问题，不知道为什么归到困难里面了，可能绘图难？
+const solveNQueens = (n) => {
+    const board = new Array(n);
+    for (let i = 0; i < n; i++) {
+        board[i] = new Array(n).fill('.');
+    }
+
+    const cols = new Set(); // 列集，记录出现过皇后的列
+    const diag1 = new Set(); // 正对角线集
+    const diag2 = new Set(); // 反对角线集
+    const res = [];
+
+    const helper = (row) => {
+        if (row == n) {
+            const stringsBoard = board.slice();
+            for (let i = 0; i < n; i++) {
+                stringsBoard[i] = stringsBoard[i].join('');
+            }
+            res.push(stringsBoard);
+            return;
+        }
+        for (let col = 0; col < n; col++) {
+            if (!cols.has(col) && !diag1.has(row + col) && !diag2.has(row - col)) {
+                board[row][col] = 'Q';
+                cols.add(col);
+                diag1.add(row + col);
+                diag2.add(row - col);
+                helper(row + 1);
+                board[row][col] = '.';
+                cols.delete(col);
+                diag1.delete(row + col);
+                diag2.delete(row - col);
+            }
+        }
+    };
+    helper(0);
+    return res;
+};
