@@ -865,3 +865,34 @@ const solveNQueens = (n) => {
     helper(0);
     return res;
 };
+
+//lc 257
+//https://leetcode-cn.com/problems/binary-tree-paths/
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {string[]}
+ */
+var binaryTreePaths = function(root) {
+    const paths = [];
+    const dfs = (root, path) => {
+        if (root) {
+            path += root.val.toString();
+            if (root.left == null && root.right == null) {
+                paths.push(path);
+            } else {
+                path += "->";
+                dfs(root.left, path);
+                dfs(root.right, path);
+            }
+        }
+    }
+    dfs(root, "");
+    return paths;
+};
