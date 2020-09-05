@@ -916,3 +916,55 @@ var coinChange = function(coins, amount) {
     }
     return dp[amount] === Infinity ? -1 : dp[amount];
 };
+
+//lc 70
+//https://leetcode-cn.com/problems/climbing-stairs/
+//三种，傻瓜dp，矩阵快速幂，数学公式
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function(n) {
+    if (n < 4) return n;
+    let x = 2,
+        y = 3,
+        z;
+    for (let i = 4; i <= n; i++) {
+        z = x + y;
+        x = y;
+        y = z;
+    }
+    return z;
+};
+
+var climbStairs = function(n) {
+    const sqrt_5 = Math.sqrt(5);
+    const fib_n = Math.pow((1 + sqrt_5) / 2, n + 1) - Math.pow((1 - sqrt_5) / 2, n + 1);
+    return Math.round(fib_n / sqrt_5);
+};
+
+//lc 60
+//https://leetcode-cn.com/problems/permutation-sequence/solution/
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getPermutation = function(n, k) {
+    const nums = [];
+    let fac = 1;
+    for (let i = 1; i <= n; i++) {
+        nums.push(i);
+        fac = fac * i;
+    }
+    k--;
+    let ans = '';
+    while (nums.length > 0) {
+        fac = fac / nums.length;
+        const index = k / fac | 0;
+        ans += nums[index];
+        nums.splice(index, 1);
+        k = k % fac;
+    }
+    return ans;
+};
