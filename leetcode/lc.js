@@ -1122,3 +1122,141 @@ const topKFrequent = (nums, k) => {
         return freq[b] - freq[a];
     });
 };
+
+//lc offer 40
+//https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number[]}
+ */
+//1
+var getLeastNumbers = function(arr, k) {
+    return arr.sort((a, b) => a - b).slice(0, k);
+};
+
+
+var getLeastNumbers = function(arr, k) {
+    let len = arr.length
+    if (!len || !k) return []
+    let heap = new Heap()
+        // 建立最小堆，O(N) 复杂度
+    heap.init(arr)
+    let res = []
+    while (k) {
+        // 依次从堆顶弹出最小元素，O(logN) 复杂度
+        res.push(heap.delete())
+        k--
+    }
+    return res
+}
+
+function Heap() {
+    this.heap = [-Infinity]
+}
+Heap.prototype.init = function(arr) {
+    this.heap = [-Infinity]
+    this.heap.push(...arr)
+    let size = arr.length
+        // 从最后一个元素的父节点开始实现最小堆，类似删除操作中将最后一个元素放在堆顶进行调整。
+    for (let pos = parseInt(size / 2); pos > 0; pos--) {
+        let tmp = this.heap[pos]
+        let parent, child
+        for (parent = pos; parent * 2 <= size; parent = child) {
+            child = parent * 2
+            if (child + 1 <= size && this.heap[child + 1] < this.heap[child]) child++
+                if (tmp < this.heap[child]) break
+                else this.heap[parent] = this.heap[child]
+        }
+        this.heap[parent] = tmp
+    }
+}
+Heap.prototype.delete = function() {
+    let size = this.heap.length - 1
+    let res = this.heap[1]
+        // 拿到最后一个元素
+    let tmp = this.heap[size]
+    this.heap.length--
+        size--
+        // 将最后一个元素放在堆顶，并调整最小堆
+        let parent, child
+    for (parent = 1; parent * 2 <= size; parent = child) {
+        child = parent * 2
+        if (child + 1 <= size && this.heap[child + 1] < this.heap[child]) child++
+            if (tmp < this.heap[child]) break
+            else this.heap[parent] = this.heap[child]
+    }
+    this.heap[parent] = tmp
+    return res
+}
+
+
+// ac地址：https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/
+// 原文地址：https://xxoo521.com/2020-02-21-least-nums/
+
+/**
+ *
+ * @param {number[]} arr
+ * @param {number} start
+ * @param {number} end
+ * @return {number}
+ */
+function partition(arr, start, end) {
+    const k = arr[start];
+    let left = start + 1,
+        right = end;
+    while (1) {
+        while (left <= end && arr[left] <= k) ++left;
+        while (right >= start + 1 && arr[right] >= k) --right;
+
+        if (left >= right) {
+            break;
+        }
+
+        [arr[left], arr[right]] = [arr[right], arr[left]];
+        ++left;
+        --right;
+    }
+    [arr[right], arr[start]] = [arr[start], arr[right]];
+    return right;
+}
+
+
+function partition(arr, start, end) {
+    const k = arr[start];
+    let left = start + 1,
+        right = end;
+    while (1) {
+        while (left <= end && arr[left] <= k) ++left;
+        while (right >= start + 1 && arr[right] >= k) --right;
+
+        if (left >= right) {
+            break;
+        }
+
+        [arr[left], arr[right]] = [arr[right], arr[left]];
+        ++left;
+        --right;
+    }
+    [arr[right], arr[start]] = [arr[start], arr[right]];
+    return right;
+}
+
+var getLeastNumbers = function(arr, k) {
+    const length = arr.length;
+    if (k >= length) return arr;
+    let left = 0,
+        right = length - 1;
+    let index = partition(arr, left, right);
+    while (index !== k) {
+        if (index < k) {
+            left = index + 1;
+            index = partition(arr, left, right);
+        } else if (index > k) {
+            right = index - 1;
+            index = partition(arr, left, right);
+        }
+    }
+
+    return arr.slice(0, k);
+};
