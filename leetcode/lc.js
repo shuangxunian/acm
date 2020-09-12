@@ -1348,3 +1348,66 @@ const combinationSum2 = (candidates, target) => {
     dfs(0, [], 0);
     return res;
 };
+
+//lc 216
+//https://leetcode-cn.com/problems/combination-sum-iii/
+/**
+ * @param {number} k
+ * @param {number} n
+ * @return {number[][]}
+ */
+var combinationSum3 = function(k, n) {
+    const temp = [];
+    const res = [];
+    const dfs = (cur, n, k, sum, res) => {
+        if (temp.length + (n - cur + 1) < k || temp.length > k) {
+            return;
+        }
+        if (temp.length === k && temp.reduce((previous, value) => previous + value, 0) === sum) {
+            res.push(temp.slice());
+            return;
+        }
+        temp.push(cur);
+        dfs(cur + 1, n, k, sum, res);
+        temp.pop();
+        dfs(cur + 1, n, k, sum, res);
+    }
+
+    dfs(1, 9, k, n, res);
+    return res;
+};
+
+//lc 637
+//https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var averageOfLevels = function(root) {
+    const res = [];
+    const queue = [];
+    queue.push(root);
+    while (queue.length) {
+        const l = queue.length;
+        let ln = 0;
+        for (let i = 0; i < l; i++) {
+            let rootson = queue.shift();
+            ln += rootson.val;
+            if (rootson.left) {
+                queue.push(rootson.left);
+            }
+            if (rootson.right) {
+                queue.push(rootson.right);
+            }
+        }
+        res.push(ln / l);
+    }
+    return res;
+};
