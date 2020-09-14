@@ -1411,3 +1411,44 @@ var averageOfLevels = function(root) {
     }
     return res;
 };
+
+//lc 94
+//https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+//常规
+var inorderTraversal = function(root) {
+    const res = [];
+    const ino = (root) => {
+        if (!root) return;
+        ino(root.left);
+        res.push(root.val);
+        ino(root.right);
+    }
+    ino(root);
+    return res;
+};
+//显式栈
+var inorderTraversal = function(root) {
+    const res = [];
+    const sta = [];
+    while (root || sta.length) {
+        while (root) {
+            sta.push(root);
+            root = root.left;
+        }
+        root = sta.pop();
+        res.push(root.val);
+        root = root.right;
+    }
+    return res;
+}
