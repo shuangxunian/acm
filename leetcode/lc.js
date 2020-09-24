@@ -1540,3 +1540,169 @@ var invertTree = function(root) {
     root.right = left;
     return root;
 };
+
+//lc 538
+//https://leetcode-cn.com/problems/convert-bst-to-greater-tree/
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+const convertBST = (root) => {
+    let sum = 0;
+    const inOrder = (root) => {
+        if (root == null) { // 遍历到null节点，开始返回
+            return;
+        }
+        if (root.right) { // 先进入右子树
+            inOrder(root.right);
+        }
+        sum += root.val; // 节点值累加给sum
+        root.val = sum; // 累加的结果，赋给root.val
+        if (root.left) { // 然后才进入左子树
+            inOrder(root.left);
+        }
+    };
+    inOrder(root); // 递归的入口，从根节点开始
+    return root;
+}
+
+// lc 685
+//https://leetcode-cn.com/problems/redundant-connection-ii/
+/**
+ * @param {number[][]} edges
+ * @return {number[]}
+ */
+var findRedundantDirectedConnection = function(edges) {
+    const len = edges.length,
+        indegree = new Array(len + 1).fill(0); // 用数组来存储每个节点的入度情况
+
+    const dfs = (j, n) => { // 判断是否成环，如果成环就返回节点的前继
+        for (let x = 0; x < len; ++x) {
+            if (edges[x][0] === j) {
+                if (edges[x][1] === n) return j;
+                return dfs(edges[x][1], n);
+            }
+        }
+    };
+
+    for (const edge of edges) {
+        ++indegree[edge[1]];
+        if (indegree[edge[1]] === 2) {
+            let num = dfs(edge[1], edge[1]);
+            if (typeof num === 'number') {
+                return [num, edge[1]];
+            }
+            return edge; // 此时这条边一定是给定数组的后面的边，因为是从前面往后边遍历的
+        }
+    }
+
+    for (let i = len - 1; i >= 0; --i) { // 从后面往前面遍历，保证是最后一条边
+        if (typeof dfs(edges[i][1], edges[i][1]) === 'number') return edges[i];
+    }
+};
+
+//lc 404
+//https://leetcode-cn.com/problems/sum-of-left-leaves/
+const sumOfLeftLeaves = (root) => {
+    const dfs = (root, isleft) => {
+        if (root == null) return 0;
+        if (root.left == null && root.right == null) {
+            if (isleft) return root.value;
+            return 0;
+        }
+        return dfs(root.left, true) + dfs(root.right, false);
+    };
+    return dfs(root, false);
+};
+
+//lc 78
+//https://leetcode-cn.com/problems/subsets/
+var subsets = function(nums) {
+    const t = [];
+    const ans = [];
+    const n = nums.length;
+    const dfs = (cur) => {
+        if (cur === nums.length) {
+            ans.push(t.slice());
+            return;
+        }
+        t.push(nums[cur]);
+        dfs(cur + 1, nums);
+        t.pop(t.length - 1);
+        dfs(cur + 1, nums);
+    }
+    dfs(0, nums);
+    return ans;
+};
+
+//lc 968
+//https://leetcode-cn.com/problems/binary-tree-cameras/
+var minCameraCover = function(root) {
+    const dfs = (root) => {
+        if (!root) {
+            return [Math.floor(Number.MAX_SAFE_INTEGER / 2), 0, 0];
+        }
+        const [la, lb, lc] = dfs(root.left);
+        const [ra, rb, rc] = dfs(root.right);
+        const a = lc + rc + 1;
+        const b = Math.min(a, Math.min(la + rb, ra + lb));
+        const c = Math.min(a, lb + rb);
+        return [a, b, c];
+    }
+    return dfs(root)[1];
+};
+
+//lc 501
+//https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/
+var findMode = function(root) {
+    let base = 0,
+        count = 0,
+        maxCount = 0;
+    let answer = [];
+
+    const update = (x) => {
+        if (x === base) {
+            ++count;
+        } else {
+            count = 1;
+            base = x;
+        }
+        if (count === maxCount) {
+            answer.push(base);
+        }
+        if (count > maxCount) {
+            maxCount = count;
+            answer = [base];
+        }
+    }
+
+    let cur = root,
+        pre = null;
+    while (cur !== null) {
+        if (cur.left === null) {
+            update(cur.val);
+            cur = cur.right;
+            continue;
+        }
+        pre = cur.left;
+        while (pre.right !== null && pre.right !== cur) {
+            pre = pre.right;
+        }
+        if (pre.right === null) {
+            pre.right = cur;
+            cur = cur.left;
+        } else {
+            pre.right = null;
+            update(cur.val);
+            cur = cur.right;
+        }
+    }
+    return answer;
+};
