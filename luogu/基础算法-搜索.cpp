@@ -60,3 +60,96 @@ using namespace std;
 //     cout<<ans<<endl;
 //     return 0;
 // }
+
+// int tx[]={-1,-1,-1, 0, 0, 1,1,1};
+// int ty[]={-1, 0, 1, 1,-1,-1,0,1};
+
+// char a[105][105],b[105][105],c[]="yizhong";
+
+// int dfs(int x,int y,int k,int m){
+//     if(m==6){
+//         for(;m>=0;m--){
+//             b[x][y]=c[m];
+//             x-=tx[k];
+//             y-=ty[k];
+//         }
+//         return 0;
+//     }
+//     x+=tx[k];
+//     y+=ty[k];
+//     if(a[x][y]==c[m+1]) dfs(x,y,k,m+1);
+//     return 0;
+// }
+// int main(){
+//     int n,x,y;
+//     cin>>n;
+//     for(int i=0;i<n;i++){
+//         for(int j=0;j<n;j++){
+//             cin>>a[i][j];
+//             b[i][j]='*';
+//         }
+//     }
+//     for(int i=0;i<n;i++){
+//         for(int j=0;j<n;j++){
+//             if(a[i][j]=='y'){
+//                 for(int k=0;k<8;k++){
+//                     dfs(i,j,k,0);
+//                 }
+//             }
+//         }
+//     }
+//     for(int i=0;i<n;i++){
+//         for(int j=0;j<n;j++){
+//             cout<<b[i][j];
+//         }
+//         cout<<endl;
+//     }
+//     return 0;
+// }
+
+
+// int n,a[103][103]={0};
+// int tx[]={1,-1,0,0};
+// int ty[]={0,0,1,-1};
+// int bfs(int x,int y){
+//     queue<int> qx,qy;
+//     int xx,yy;
+//     qx.push(x);
+//     qy.push(y);
+//     a[x][y]=3;
+//     while(!qx.empty()){
+//         for(int i=0;i<4;i++){
+//             // cout<<i<<endl;
+//             xx=qx.front()+tx[i];
+//             yy=qy.front()+ty[i];
+//             // cout<<"xx:"<<xx<<"yy:"<<yy<<endl;
+//             if(xx>=0&&xx<=n+1&&yy>=0&&yy<=n+1&&a[xx][yy]==0){
+//                 qx.push(xx);
+//                 qy.push(yy);
+//                 a[xx][yy]=3;
+//             }
+//         }
+//         qx.pop();
+//         qy.pop();
+//     }
+//     return 0;
+// }
+// int main(){
+//     cin>>n;
+//     for(int i=1;i<=n;i++){
+//         for(int j=1;j<=n;j++){
+//             cin>>a[i][j];
+//         }
+//     }
+//     bfs(0,0);
+//     for(int i=1;i<=n;i++){
+//         for(int j=1;j<=n;j++){
+//             if(a[i][j]==0) cout<<"2"<<" ";
+//             else if(a[i][j]==3) cout<<"0"<<" ";
+//             else cout<<a[i][j]<<" ";
+//             // cout<<a[i][j]<<" ";
+//         }
+//         cout<<endl;
+//     }
+//     return 0;
+// }
