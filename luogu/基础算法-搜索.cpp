@@ -178,3 +178,29 @@ using namespace std;
 // }
 
 
+// int n;
+// int t[12]={0};
+// int s[12];
+// int dfs(int k){
+//     if(k==n){
+//         for(int i=1;i<=n;i++) printf("%5d",s[i]);
+//         printf("\n");
+//         return 0;
+//     }
+//     for(int i=1;i<=n;i++){
+//         if(t[i]==0){
+//             t[i]=1;
+//             s[k+1]=i;
+//             dfs(k+1);
+//             t[i]=0;
+//         }
+//     }
+//     return 0;
+// }
+// int main(){
+//     scanf("%d",&n);
+//     dfs(0);
+//     return 0;
+// }
+
+
