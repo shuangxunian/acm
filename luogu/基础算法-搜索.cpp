@@ -153,3 +153,28 @@ using namespace std;
 //     }
 //     return 0;
 // }
+
+
+// int n,r,t[105];
+// int dfs(int k){
+//     if(k>r){
+//         for(int i=1;i<=r;i++){
+//             printf("%3d",t[i]);
+//         }
+//         printf("\n");
+//         return 0;
+//     }
+//     for(int i=t[k-1]+1;i<=n;i++){
+//         t[k]=i;
+//         dfs(k+1);
+//     }
+//     return 0;
+// }
+
+// int main(){
+//     scanf("%d%d",&n,&r);
+//     dfs(1);
+//     return 0;
+// }
+
+
