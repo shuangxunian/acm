@@ -100,3 +100,62 @@ using namespace std;
 
 
 
+
+// int main(){
+//     int n,x;
+//     int ans=0,now=0;
+//     cin>>n;
+//     while(n--){
+//         cin>>x;
+//         if(x>now) ans+=x-now;
+//         now=x;
+//     }
+//     cout<<ans<<endl;
+// }
+
+
+// int t[200005];
+// int main(){
+//     int n,m;
+//     int x,y;
+//     int ans;
+//     scanf("%d%d",&n,&m);
+//     for(int i=0;i<n;i++) scanf("%d",&t[i]);
+//     while(m--){
+//     	char qs[3];
+//         scanf("%s %d %d",qs,&x,&y);
+//         if(qs[0]=='f'){
+//             ans=0;
+//             for(int i=x-1;i<y;i++){
+//                 if(t[i]>ans) ans=t[i];
+//             }
+//             printf("%d\n",ans);
+//         }
+//         else if(qs[0]=='m'){
+//             t[x-1]=y;
+//         }
+//     }
+//     return 0; 
+// }
+
+
+int t[5005]={0};
+int main(){
+    int n,m;
+    int w,q;
+    int ans=0;
+    cin>>n>>m;
+    while(m--){
+        cin>>w>>q;
+        t[w]+=q;
+    }
+    for(int i=1;;i++){
+        if(t[i]>n){
+            ans+=n*i;
+            break;
+        }
+        n-=t[i];
+        ans+=t[i]*i;
+    }
+    cout<<ans<<endl;
+}
